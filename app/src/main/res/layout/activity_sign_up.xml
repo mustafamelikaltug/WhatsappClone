@@ -79,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewClickToSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewAlreadyHaveAccount" />
 
     <Button
         android:id="@+id/buttonGoogle"
@@ -113,17 +113,18 @@
         app:layout_constraintStart_toEndOf="@+id/buttonGoogle"
         app:layout_constraintTop_toBottomOf="@+id/buttonSignUp" />
 
-    <TextView
-        android:id="@+id/textViewClickToSignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Already have account"
-        android:textColor="@color/lightGrey"
-        android:textSize="12dp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
-        tools:layout_editor_absoluteX="250dp" />
+   <TextView
+       android:id="@+id/textViewAlreadyHaveAccount"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="10dp"
+       android:layout_marginEnd="32dp"
+       android:text="Already have account"
+       android:textColor="@color/lightGrey"
+       android:textSize="16dp"
+       android:textStyle="bold"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintTop_toBottomOf="@+id/editTextPassword"/>
 
     <TextView
         android:id="@+id/textViewSignUpWithPhone"
@@ -138,6 +139,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonGoogle" />
+
+    <ProgressBar
+        android:id="@+id/progressBarSignUp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/chat_background"
+        android:max="100"
+        android:progressDrawable="@drawable/circler"
+        android:progressTint="#8BC34A"
+        android:rotation="270"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

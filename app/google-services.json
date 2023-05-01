@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1031411240831",
+    "project_id": "mmachat-82c2a",
+    "storage_bucket": "mmachat-82c2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031411240831:android:5d6a449bf39ce174b4544a",
+        "android_client_info": {
+          "package_name": "com.example.mmachat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031411240831-q1d72da9d3c2m4poutcrd24h5l1lh6h1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnlxgHycmoI_0L30Nh3hGKEaMeSH0-hpE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031411240831-q1d72da9d3c2m4poutcrd24h5l1lh6h1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
