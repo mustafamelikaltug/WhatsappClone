@@ -78,10 +78,10 @@ public class SignInActivity extends AppCompatActivity {
                     if (task.isSuccessful()){
                         reload();
                         //Show to user signing in status
-                        Toast.makeText(SignInActivity.this, "Signing In successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, "Signing in successfully", Toast.LENGTH_SHORT).show();
                     }else {
                         //Show to user signing in status
-                        Toast.makeText(SignInActivity.this, "Signing In failed : " +task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, "Signing in failed : " +task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
