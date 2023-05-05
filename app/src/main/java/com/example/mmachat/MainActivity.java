@@ -2,6 +2,9 @@ package com.example.mmachat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,12 +13,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.mmachat.Adapter.FragmentViewPagerAdapter;
 import com.example.mmachat.databinding.ActivityMainBinding;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FirebaseAuth mAuth;
+    FragmentViewPagerAdapter fragmentViewPagerAdapter;
+    ArrayList<String> tabTitleList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +38,19 @@ public class MainActivity extends AppCompatActivity {
         //Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        //Initialize tabs title list
+        tabTitleList = new ArrayList<>();
+        tabTitleList.add("Chats");
+        tabTitleList.add("Status");
+        tabTitleList.add("Calls");
+
+        //Initialize View Pager Adapter
+        fragmentViewPagerAdapter = new FragmentViewPagerAdapter(this);
+
+        binding.viewPager.setAdapter(fragmentViewPagerAdapter);
+
+        //Attach Tab Layout and View Pager together
+        new TabLayoutMediator(binding.tabLayout,binding.viewPager,((tab, position) -> tab.setText(tabTitleList.get(position)))).attach();
     }
 
     @Override
@@ -64,4 +87,23 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Sign out failed. Try again", Toast.LENGTH_SHORT).show();
         }
     }
+
+  /*  private class ViewPagerAdapter extends FragmentStateAdapter{
+
+        public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+            super(fragmentActivity);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            return null;
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+    }
+*/
 }

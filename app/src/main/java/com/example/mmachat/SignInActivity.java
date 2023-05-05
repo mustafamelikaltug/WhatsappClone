@@ -36,8 +36,7 @@ public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase firebaseDatabase;
     private SignInClient oneTapClient;
-    private BeginSignInRequest signInRequest, signUpRequest;
-
+    private BeginSignInRequest signUpRequest;
     private static final int REQ_ONE_TAP = 2;  // Can be any integer unique to the Activity.
     private boolean showOneTapUI = true;
 
@@ -47,7 +46,6 @@ public class SignInActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null) {
             // Check if user already signed in
             accessToMain();
-
         }
     }
 
@@ -67,8 +65,6 @@ public class SignInActivity extends AppCompatActivity {
 
         //Initialize One Tap
         oneTapClientInitializer();
-
-
 
 
         binding.buttonSignIn.setOnClickListener(new View.OnClickListener() {
@@ -142,24 +138,9 @@ public class SignInActivity extends AppCompatActivity {
     //Initialize oneTap, Sign in request and Sign up request
     public void oneTapClientInitializer() {
         oneTapClient = Identity.getSignInClient(this);
-        signInRequest = BeginSignInRequest.builder()
-                .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
-                        .setSupported(true)
-                        .build())
-                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                        .setSupported(true)
-                        // Your server's client ID, not your Android client ID.
-                        .setServerClientId(getString(R.string.default_web_client_id))
-                        // Only show accounts previously used to sign in.
-                        .setFilterByAuthorizedAccounts(true)
-                        .build())
-                // Automatically sign in when exactly one credential is retrieved.
-                .setAutoSelectEnabled(true)
-                .build();
-
         signUpRequest = BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                 .setSupported(true)
-                //Your server's clinet ID,not your Android client ID
+                //Your server's client ID,not your Android client ID
                 .setServerClientId(getString(R.string.default_web_client_id))
                 //Show all accounts on the device.
                 .setFilterByAuthorizedAccounts(false).build()).build();
@@ -168,47 +149,14 @@ public class SignInActivity extends AppCompatActivity {
     //Showing One Tap Sign Up UI
     public void oneTapSignUpUI() {
 
-      /*  ActivityResultLauncher<IntentSenderRequest> intentSender = registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == RESULT_OK) {
-                    try {
-                        SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(result.getData());
-                        String idToken = credential.getGoogleIdToken();
-                        if (idToken != null) {
-                            AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
-                            mAuth.signInWithCredential(firebaseCredential).addOnCompleteListener(SignInActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(SignInActivity.this, "Signing in success", Toast.LENGTH_SHORT).show();
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                    } else {
-                                        Toast.makeText(SignInActivity.this, "Signing in failure : " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-                        }
-                    } catch (ApiException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });*/
-
         oneTapClient.beginSignIn(signUpRequest).addOnSuccessListener(this, new OnSuccessListener<BeginSignInResult>() {
             @Override
             public void onSuccess(BeginSignInResult beginSignInResult) {
                 try {
                     startIntentSenderForResult(beginSignInResult.getPendingIntent().getIntentSender(), REQ_ONE_TAP,null, 0, 0, 0);
-                  /*  IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(beginSignInResult.getPendingIntent()).build();
-                    intentSender.launch(intentSenderRequest);*/
                 } catch (IntentSender.SendIntentException e) {
                     Toast.makeText(SignInActivity.this, "Sign in with Google failure - Couldn't start One Tap UI: " +e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         }).addOnFailureListener(this, new OnFailureListener() {
             @Override
@@ -239,7 +187,6 @@ public class SignInActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
-
                                     //Create a user
                                     Users user = new Users();
                                     user.setUserId(firebaseUser.getUid());
