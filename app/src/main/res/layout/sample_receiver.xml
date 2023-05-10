@@ -36,8 +36,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="4dp"
+        android:layout_marginBottom="2dp"
         android:text="12:45 pm"
         android:textSize="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewReceiverText" />
 

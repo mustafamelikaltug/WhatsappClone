@@ -37,15 +37,16 @@ dependencies {
     def fragment_version = "1.5.6"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.3.0'
-    implementation platform('com.google.firebase:firebase-bom:31.5.0')
+    implementation 'com.google.firebase:firebase-auth-ktx:22.0.0'
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'com.squareup.picasso:picasso:2.8'
 
     // Java language implementation
+    //noinspection GradleDependency
     implementation "androidx.fragment:fragment:$fragment_version"
 
     // Java language implementation

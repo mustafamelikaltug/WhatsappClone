@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_action_group_chat"
+        android:title="New Group Chat" />
+    <item
         android:id="@+id/menu_action_settings"
         android:title="Settings" />
     <item

@@ -4,6 +4,8 @@ public class Message {
     private String userId, message, messageId;
     private Long timestampp;
 
+
+
     public Message(String userId, String messageId, Long timestampp) {
         this.userId = userId;
         this.messageId = messageId;

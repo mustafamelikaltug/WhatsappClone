@@ -64,7 +64,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         int itemId = item.getItemId();
-        if (itemId == R.id.menu_action_settings) {
+        if (itemId == R.id.menu_action_group_chat){
+            Intent intentGroupChat = new Intent(MainActivity.this, GroupChatActivity.class);
+            intentGroupChat.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intentGroupChat);
+            return true;
+        } else if (itemId == R.id.menu_action_settings) {
             return true;
         } else if (itemId == R.id.menu_action_log_out) {
             signOut();
