@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intentGroupChat);
             return true;
         } else if (itemId == R.id.menu_action_settings) {
+            Intent intentSettings = new Intent(MainActivity.this, SettingsActivity.class);
+            intentSettings.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intentSettings);
             return true;
         } else if (itemId == R.id.menu_action_log_out) {
             signOut();

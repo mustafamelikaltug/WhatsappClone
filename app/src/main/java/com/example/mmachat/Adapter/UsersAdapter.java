@@ -3,7 +3,6 @@ package com.example.mmachat.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.CpuUsageInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mmachat.ChatDetailActivity;
-import com.example.mmachat.Fragments.ChatsFragment;
 import com.example.mmachat.Models.Users;
 import com.example.mmachat.R;
 import com.example.mmachat.databinding.CardViewUserBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,18 +49,47 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
     @Override
     public void onBindViewHolder(@NonNull UsersAdapter.UsersViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        //Try to get users profile pic with URL that saved as String
-        Picasso.get().load(usersArrayList.get(position).getProfilePic())
-                //If there is not any URL then show a default image as avatar
-                .placeholder(R.drawable.avatar).into(holder.binding.imageViewProfilePic);
+        loadProfilePic(holder,position);
 
         //Set user name
         holder.binding.textViewFriendUserName.setText(usersArrayList.get(position).getUsername());
 
-        //Set last message
-        holder.binding.textViewFriendMessage.setText(usersArrayList.get(position).getLastMessage());
+        getLastMessage(holder,position);
 
-        //move to Chat Detail Activity when tap to username on Chat Tab
+        moveToChatDetail(holder,position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return usersArrayList.size();
+    }
+
+
+    public void getLastMessage(@NonNull UsersAdapter.UsersViewHolder holder, @SuppressLint("RecyclerView") int position){
+        Users users = usersArrayList.get(position);
+
+        //Get last message form the database acc. to time
+        FirebaseDatabase.getInstance().getReference().child("Chats").child(FirebaseAuth.getInstance().getUid()+users.getUserId())
+                .orderByChild("timestampp").limitToLast(1).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.hasChildren()){
+                            for (DataSnapshot snapshot1:snapshot.getChildren()){
+                                //Set last message
+                                holder.binding.textViewFriendMessage.setText(snapshot1.child("message").getValue().toString());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    //Go to chat detail with user infos by tapping user
+    public void moveToChatDetail(@NonNull UsersAdapter.UsersViewHolder holder, @SuppressLint("RecyclerView") int position){
         holder.binding.cardViewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,13 +101,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
                 mContext.startActivity(intent);
             }
         });
-
-
     }
 
-    @Override
-    public int getItemCount() {
-        return usersArrayList.size();
+    public void loadProfilePic(@NonNull UsersAdapter.UsersViewHolder holder, @SuppressLint("RecyclerView") int position){
+        //Try to get users profile pic with URL that saved as String
+        Picasso.get().load(usersArrayList.get(position).getProfilePic())
+                //If there is not any URL then show a default image as avatar
+                .placeholder(R.drawable.avatar).into(holder.binding.imageViewProfilePic);
     }
 
 }
